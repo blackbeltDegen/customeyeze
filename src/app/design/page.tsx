@@ -31,43 +31,47 @@ const STEPS = ["Choose Shirt", "Style & Color", "Design", "Review"];
 export default function DesignPage() {
   const [step, setStep] = useState(0);
   const [order, setOrder] = useState<OrderState>({
-    feel: null,
-    shirt: null,
-    color: null,
-    quantity: 1,
-    designDataUrl: null,
-    designSide: "front",
+    feel: null, shirt: null, color: null,
+    quantity: 1, designDataUrl: null, designSide: "front",
   });
 
   function goNext() { setStep((s) => Math.min(s + 1, STEPS.length - 1)); }
   function goBack() { setStep((s) => Math.max(s - 1, 0)); }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#1C1C1E" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#13131E" }}>
       {/* Progress bar */}
-      <div className="sticky top-[80px] z-40 border-b" style={{ backgroundColor: "#111111", borderColor: "#3A3A3C" }}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-center gap-2">
+      <div style={{
+        position: "sticky", top: 80, zIndex: 40,
+        backgroundColor: "#0F0F18", borderBottom: "1px solid #2A2A3E",
+      }}>
+        <div style={{ maxWidth: 860, margin: "0 auto", padding: "16px 32px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             {STEPS.map((label, i) => (
-              <div key={label} className="flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all"
-                    style={
-                      i < step
-                        ? { backgroundColor: "#4CAF50", color: "#FFFFFF" }
-                        : i === step
-                        ? { backgroundColor: "#4CAF50", color: "#FFFFFF", boxShadow: "0 0 0 3px rgba(76,175,80,0.3)" }
-                        : { backgroundColor: "#2C2C2E", color: "#8E8E93", border: "1px solid #3A3A3C" }
-                    }>
+              <div key={label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 34, height: 34, borderRadius: "50%",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: "var(--font-poppins)", fontWeight: 800, fontSize: 13,
+                    transition: "all 0.3s",
+                    ...(i < step
+                      ? { backgroundColor: "#4CAF50", color: "#fff" }
+                      : i === step
+                      ? { backgroundColor: "#4CAF50", color: "#fff", boxShadow: "0 0 0 4px rgba(76,175,80,0.25)" }
+                      : { backgroundColor: "#1D1D2C", color: "#7A7A9A", border: "1px solid #2A2A3E" })
+                    }}>
                     {i < step ? "✓" : i + 1}
                   </div>
-                  <span className="text-sm font-semibold hidden sm:block"
-                    style={{ color: i === step ? "#FFFFFF" : i < step ? "#4CAF50" : "#8E8E93" }}>
+                  <span style={{
+                    fontSize: 13, fontWeight: 600,
+                    color: i === step ? "#fff" : i < step ? "#4CAF50" : "#7A7A9A",
+                  }} className="step-label">
                     {label}
                   </span>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className="w-10 h-0.5" style={{ backgroundColor: i < step ? "#4CAF50" : "#3A3A3C" }} />
+                  <div style={{ width: 32, height: 2, borderRadius: 1, backgroundColor: i < step ? "#4CAF50" : "#2A2A3E", transition: "background-color 0.3s" }} />
                 )}
               </div>
             ))}
@@ -75,12 +79,16 @@ export default function DesignPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "40px 32px" }}>
         {step === 0 && <StepShirtFeel order={order} onUpdate={(u) => setOrder((o) => ({ ...o, ...u }))} onNext={goNext} />}
         {step === 1 && <StepShirtStyle order={order} onUpdate={(u) => setOrder((o) => ({ ...o, ...u }))} onNext={goNext} onBack={goBack} />}
         {step === 2 && <StepDesignStudio order={order} onUpdate={(u) => setOrder((o) => ({ ...o, ...u }))} onNext={goNext} onBack={goBack} />}
         {step === 3 && <StepReview order={order} onBack={goBack} />}
       </div>
+
+      <style>{`
+        @media (max-width: 560px) { .step-label { display: none; } }
+      `}</style>
     </div>
   );
 }
