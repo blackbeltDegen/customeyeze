@@ -13,88 +13,88 @@ const PRICING = [
   { min: 48, max: Infinity, multiplier: 0.56 },
 ];
 
-function getTier(qty: number) {
-  return PRICING.find((p) => qty >= p.min && qty <= p.max) ?? PRICING[0];
-}
+function getTier(qty: number) { return PRICING.find((p) => qty >= p.min && qty <= p.max) ?? PRICING[0]; }
+
+const card: React.CSSProperties = { backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 20 };
 
 export default function StepReview({ order, onBack }: Props) {
-  const unitPrice = order.shirt
-    ? parseFloat((order.shirt.price * getTier(order.quantity).multiplier).toFixed(2))
-    : 0;
+  const unitPrice = order.shirt ? parseFloat((order.shirt.price * getTier(order.quantity).multiplier).toFixed(2)) : 0;
   const subtotal = (unitPrice * order.quantity).toFixed(2);
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="text-center mb-12">
-        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#4CAF50" }}>Step 4</p>
-        <h2 className="text-3xl font-extrabold mb-2" style={{ fontFamily: "var(--font-poppins)", color: "#FFFFFF" }}>
-          Review Your Order
-        </h2>
-        <p style={{ color: "#8E8E93" }}>Everything look good? Proceed to checkout when ready.</p>
+    <div style={{ maxWidth: 600, margin: "0 auto" }}>
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Step 4 of 4</span>
+        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>Review Your Order</h2>
+        <p style={{ fontSize: 15, color: "#7A7A9A" }}>Everything look good? Proceed to checkout when ready.</p>
       </div>
 
-      <div className="rounded-2xl border overflow-hidden mb-5" style={{ backgroundColor: "#2C2C2E", borderColor: "#3A3A3C" }}>
-        <div className="px-6 py-4 border-b" style={{ backgroundColor: "#1C1C1E", borderColor: "#3A3A3C" }}>
-          <h3 className="font-bold" style={{ fontFamily: "var(--font-poppins)", color: "#FFFFFF" }}>Order Summary</h3>
+      {/* Order summary card */}
+      <div style={{ ...card, overflow: "hidden", marginBottom: 16 }}>
+        <div style={{ padding: "16px 24px", borderBottom: "1px solid #2A2A3E", backgroundColor: "#13131E" }}>
+          <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 15, fontWeight: 700, color: "#fff" }}>Order Summary</h3>
         </div>
-        <div className="p-6 space-y-6">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl border flex-shrink-0"
-              style={{ backgroundColor: order.color?.hex ?? "#2C2C2E", borderColor: "#3A3A3C" }} />
+        <div style={{ padding: "24px" }}>
+          {/* Shirt info */}
+          <div style={{ display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 24 }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, border: "1px solid #2A2A3E", flexShrink: 0, backgroundColor: order.color?.hex ?? "#1D1D2C" }} />
             <div>
-              <p className="font-semibold" style={{ color: "#FFFFFF" }}>{order.shirt?.name}</p>
-              <p className="text-sm" style={{ color: "#8E8E93" }}>{order.shirt?.brand} · {order.color?.name}</p>
-              <p className="text-sm capitalize" style={{ color: "#8E8E93" }}>{order.feel} feel · {order.designSide} print</p>
+              <p style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{order.shirt?.name}</p>
+              <p style={{ fontSize: 13, color: "#7A7A9A", marginBottom: 2 }}>{order.shirt?.brand} · {order.color?.name}</p>
+              <p style={{ fontSize: 13, color: "#7A7A9A", textTransform: "capitalize" }}>{order.feel} feel · {order.designSide} print</p>
             </div>
           </div>
 
+          {/* Design preview */}
           {order.designDataUrl && (
-            <div>
-              <p className="text-sm font-semibold mb-2" style={{ color: "#8E8E93" }}>Your Design Preview</p>
-              <div className="rounded-xl overflow-hidden border w-40 h-48 relative"
-                style={{ borderColor: "#3A3A3C" }}>
-                <Image src={order.designDataUrl} alt="Your design" fill className="object-contain" />
+            <div style={{ marginBottom: 24 }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: "#7A7A9A", marginBottom: 10 }}>Your Design Preview</p>
+              <div style={{ width: 140, height: 176, borderRadius: 12, overflow: "hidden", border: "1px solid #2A2A3E", position: "relative" }}>
+                <Image src={order.designDataUrl} alt="Your design" fill style={{ objectFit: "contain" }} />
               </div>
             </div>
           )}
 
-          <div className="space-y-3 pt-4 border-t" style={{ borderColor: "#3A3A3C" }}>
-            <div className="flex justify-between text-sm">
-              <span style={{ color: "#8E8E93" }}>Quantity</span>
-              <span className="font-medium" style={{ color: "#EBEBF0" }}>{order.quantity} shirts</span>
+          {/* Pricing breakdown */}
+          <div style={{ borderTop: "1px solid #2A2A3E", paddingTop: 20, display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ fontSize: 14, color: "#7A7A9A" }}>Quantity</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#ccc" }}>{order.quantity} shirts</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span style={{ color: "#8E8E93" }}>Price per shirt</span>
-              <span className="font-medium" style={{ color: "#EBEBF0" }}>${unitPrice.toFixed(2)}</span>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span style={{ fontSize: 14, color: "#7A7A9A" }}>Price per shirt</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#ccc" }}>${unitPrice.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-lg font-bold pt-3 border-t" style={{ borderColor: "#3A3A3C" }}>
-              <span style={{ color: "#FFFFFF" }}>Subtotal</span>
-              <span style={{ fontFamily: "var(--font-poppins)", color: "#4CAF50" }}>${subtotal}</span>
+            <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 16, borderTop: "1px solid #2A2A3E" }}>
+              <span style={{ fontSize: 17, fontWeight: 700, color: "#fff" }}>Subtotal</span>
+              <span style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 900, color: "#4CAF50" }}>${subtotal}</span>
             </div>
-            <p className="text-xs" style={{ color: "#8E8E93" }}>Shipping and taxes calculated at checkout.</p>
+            <p style={{ fontSize: 12, color: "#4A4A6A" }}>Shipping and taxes calculated at checkout.</p>
           </div>
         </div>
       </div>
 
-      <div className="rounded-2xl p-5 border flex items-center gap-4 mb-8" style={{ backgroundColor: "#2C2C2E", borderColor: "#3A3A3C" }}>
-        <span className="text-3xl">⏱</span>
+      {/* Turnaround note */}
+      <div style={{ ...card, padding: "20px 24px", display: "flex", gap: 16, alignItems: "center", marginBottom: 32 }}>
+        <span style={{ fontSize: 32 }}>⏱️</span>
         <div>
-          <p className="font-semibold" style={{ color: "#FFFFFF" }}>Ready in ~1 week</p>
-          <p className="text-sm" style={{ color: "#8E8E93" }}>
+          <p style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 4 }}>Ready in ~1 week</p>
+          <p style={{ fontSize: 13, color: "#7A7A9A", lineHeight: 1.65 }}>
             Once payment is confirmed, we review your design and get to printing. We&apos;ll reach out if anything needs adjusting.
           </p>
         </div>
       </div>
 
-      <div className="flex justify-between">
-        <button onClick={onBack}
-          className="px-8 py-4 rounded-full font-semibold border"
-          style={{ borderColor: "#3A3A3C", color: "#8E8E93" }}>
-          ← Edit Design
-        </button>
-        <Link href="/checkout"
-          className="px-10 py-4 rounded-full font-bold text-lg inline-block text-center"
-          style={{ backgroundColor: "#4CAF50", color: "#FFFFFF" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <button onClick={onBack} style={{ padding: "13px 28px", borderRadius: 999, fontWeight: 600, fontSize: 15, border: "1px solid #2A2A3E", color: "#7A7A9A", backgroundColor: "transparent", cursor: "pointer" }}>← Edit Design</button>
+        <Link href="/checkout" className="btn-glow" style={{
+          display: "inline-block", backgroundColor: "#4CAF50", color: "#fff",
+          padding: "13px 36px", borderRadius: 999, fontWeight: 700, fontSize: 16,
+          textDecoration: "none", transition: "transform 0.2s",
+        }}
+          onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
+          onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+        >
           Proceed to Checkout →
         </Link>
       </div>

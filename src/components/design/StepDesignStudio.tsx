@@ -15,6 +15,10 @@ type FabricCanvas = InstanceType<FabricModule["Canvas"]>;
 
 const FONTS = ["Arial", "Georgia", "Impact", "Courier New", "Verdana", "Comic Sans MS", "Trebuchet MS"];
 
+const panel: React.CSSProperties = { backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 16, padding: "18px" };
+const inputSt: React.CSSProperties = { backgroundColor: "#13131E", border: "1px solid #2A2A3E", color: "#fff", borderRadius: 10, padding: "8px 12px", width: "100%", fontSize: 13, outline: "none" };
+const labelSm: React.CSSProperties = { display: "block", fontSize: 11, color: "#7A7A9A", marginBottom: 5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" };
+
 export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<FabricCanvas | null>(null);
@@ -28,59 +32,25 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
 
   const initCanvas = useCallback(async () => {
     if (!canvasRef.current) return;
-
     const fabric = await import("fabric");
     setFabricLoaded(true);
+    if (fabricRef.current) fabricRef.current.dispose();
 
-    if (fabricRef.current) {
-      fabricRef.current.dispose();
-    }
-
-    const canvas = new fabric.Canvas(canvasRef.current, {
-      width: 400,
-      height: 500,
-      backgroundColor: order.color?.hex ?? "#FFFFFF",
-    });
-
+    const canvas = new fabric.Canvas(canvasRef.current, { width: 380, height: 480, backgroundColor: order.color?.hex ?? "#FFFFFF" });
     fabricRef.current = canvas;
 
     canvas.on("selection:created", () => setHasSelection(true));
     canvas.on("selection:cleared", () => setHasSelection(false));
     canvas.on("selection:updated", () => setHasSelection(true));
 
-    const printRect = new fabric.Rect({
-      left: 75,
-      top: 100,
-      width: 250,
-      height: 280,
-      fill: "transparent",
-      stroke: "#4CAF50",
-      strokeDashArray: [6, 4],
-      strokeWidth: 1.5,
-      selectable: false,
-      evented: false,
-    });
+    const printRect = new fabric.Rect({ left: 65, top: 90, width: 250, height: 270, fill: "transparent", stroke: "#4CAF50", strokeDashArray: [6, 4], strokeWidth: 1.5, selectable: false, evented: false });
     canvas.add(printRect);
-
-    const label = new fabric.Text("Print Area", {
-      left: 200,
-      top: 90,
-      fontSize: 11,
-      fill: "#4CAF50",
-      textAlign: "center",
-      originX: "center",
-      selectable: false,
-      evented: false,
-    });
+    const label = new fabric.Text("Print Area", { left: 190, top: 80, fontSize: 11, fill: "#4CAF50", textAlign: "center", originX: "center", selectable: false, evented: false });
     canvas.add(label);
-
     canvas.renderAll();
   }, [order.color?.hex]);
 
-  useEffect(() => {
-    initCanvas();
-    return () => { fabricRef.current?.dispose(); };
-  }, [initCanvas]);
+  useEffect(() => { initCanvas(); return () => { fabricRef.current?.dispose(); }; }, [initCanvas]);
 
   useEffect(() => {
     if (fabricRef.current && order.color?.hex) {
@@ -92,14 +62,13 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
   function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file || !fabricRef.current) return;
-
     const reader = new FileReader();
     reader.onload = async (evt) => {
       const dataUrl = evt.target?.result as string;
       const fabric = await import("fabric");
       const img = await fabric.Image.fromURL(dataUrl);
-      img.scaleToWidth(200);
-      img.set({ left: 100, top: 150 });
+      img.scaleToWidth(180);
+      img.set({ left: 100, top: 140 });
       fabricRef.current?.add(img);
       fabricRef.current?.setActiveObject(img);
       fabricRef.current?.renderAll();
@@ -111,14 +80,7 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
   async function addText() {
     if (!textInput.trim() || !fabricRef.current) return;
     const fabric = await import("fabric");
-    const text = new fabric.IText(textInput, {
-      left: 120,
-      top: 200,
-      fontSize: textSize,
-      fill: textColor,
-      fontFamily: textFont,
-      editable: true,
-    });
+    const text = new fabric.IText(textInput, { left: 100, top: 190, fontSize: textSize, fill: textColor, fontFamily: textFont, editable: true });
     fabricRef.current.add(text);
     fabricRef.current.setActiveObject(text);
     fabricRef.current.renderAll();
@@ -129,29 +91,19 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
     const canvas = fabricRef.current;
     if (!canvas) return;
     const active = canvas.getActiveObject();
-    if (active) {
-      canvas.remove(active);
-      canvas.discardActiveObject();
-      canvas.renderAll();
-    }
+    if (active) { canvas.remove(active); canvas.discardActiveObject(); canvas.renderAll(); }
   }
 
   function bringForward() {
     const canvas = fabricRef.current;
     const active = canvas?.getActiveObject();
-    if (canvas && active) {
-      canvas.bringObjectForward(active);
-      canvas.renderAll();
-    }
+    if (canvas && active) { canvas.bringObjectForward(active); canvas.renderAll(); }
   }
 
   function sendBackward() {
     const canvas = fabricRef.current;
     const active = canvas?.getActiveObject();
-    if (canvas && active) {
-      canvas.sendObjectBackwards(active);
-      canvas.renderAll();
-    }
+    if (canvas && active) { canvas.sendObjectBackwards(active); canvas.renderAll(); }
   }
 
   function flipSide(newSide: "front" | "back") {
@@ -171,158 +123,146 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
     onNext();
   }
 
-  const panelStyle = { backgroundColor: "#2C2C2E", border: "1px solid #3A3A3C", borderRadius: "16px", padding: "20px" };
-  const inputStyle = { backgroundColor: "#1C1C1E", border: "1px solid #3A3A3C", color: "#FFFFFF", borderRadius: "10px", padding: "8px 12px", width: "100%", fontSize: "13px", outline: "none" };
-  const labelSmStyle = { display: "block", fontSize: "11px", color: "#8E8E93", marginBottom: "4px", fontWeight: "600", textTransform: "uppercase" as const, letterSpacing: "0.05em" };
-
   return (
     <div>
-      <div className="text-center mb-10">
-        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#4CAF50" }}>Step 3</p>
-        <h2 className="text-3xl font-extrabold mb-2" style={{ fontFamily: "var(--font-poppins)", color: "#FFFFFF" }}>
-          Design Studio
-        </h2>
-        <p style={{ color: "#8E8E93" }}>Upload your artwork and make it yours.</p>
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Step 3 of 4</span>
+        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>Design Studio</h2>
+        <p style={{ fontSize: 15, color: "#7A7A9A" }}>Upload your artwork and make it yours.</p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }} className="studio-layout">
         {/* Toolbox */}
-        <div className="lg:w-68 flex-shrink-0 space-y-4" style={{ width: "272px" }}>
+        <div style={{ width: 260, flexShrink: 0, display: "flex", flexDirection: "column", gap: 14 }} className="studio-tools">
           {/* Upload */}
-          <div style={panelStyle}>
-            <p style={labelSmStyle}>Upload Artwork</p>
-            <label className="flex flex-col items-center justify-center gap-2 cursor-pointer rounded-xl p-4 mt-2 transition-colors"
-              style={{ border: "2px dashed #3A3A3C" }}
+          <div style={panel}>
+            <p style={labelSm}>Upload Artwork</p>
+            <label style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: "pointer", border: "2px dashed #2A2A3E", borderRadius: 12, padding: "20px 12px", marginTop: 10, transition: "border-color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = "#4CAF50")}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = "#3A3A3C")}>
-              <span className="text-3xl">📁</span>
-              <span className="text-sm font-medium" style={{ color: "#4CAF50" }}>Click to upload</span>
-              <span className="text-xs" style={{ color: "#8E8E93" }}>PNG, JPG, SVG</span>
-              <input type="file" accept="image/*" className="hidden" onChange={uploadImage} />
+              onMouseLeave={e => (e.currentTarget.style.borderColor = "#2A2A3E")}>
+              <span style={{ fontSize: 28 }}>📁</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#4CAF50" }}>Click to upload</span>
+              <span style={{ fontSize: 11, color: "#7A7A9A" }}>PNG, JPG, SVG</span>
+              <input type="file" accept="image/*" style={{ display: "none" }} onChange={uploadImage} />
             </label>
           </div>
 
           {/* Text */}
-          <div style={panelStyle}>
-            <p style={labelSmStyle}>Add Text</p>
+          <div style={panel}>
+            <p style={labelSm}>Add Text</p>
             <input type="text" placeholder="Type something..." value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addText()}
-              style={{ ...inputStyle, marginTop: "8px", marginBottom: "10px" }} />
-            <div className="grid grid-cols-2 gap-2 mb-3">
+              style={{ ...inputSt, marginTop: 8, marginBottom: 10 }} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
               <div>
-                <label style={labelSmStyle}>Font</label>
-                <select value={textFont} onChange={(e) => setTextFont(e.target.value)}
-                  style={{ ...inputStyle, padding: "6px 8px" }}>
+                <label style={labelSm}>Font</label>
+                <select value={textFont} onChange={(e) => setTextFont(e.target.value)} style={{ ...inputSt, padding: "6px 8px" }}>
                   {FONTS.map((f) => <option key={f} value={f}>{f}</option>)}
                 </select>
               </div>
               <div>
-                <label style={labelSmStyle}>Size</label>
+                <label style={labelSm}>Size</label>
                 <input type="number" value={textSize} min={8} max={120}
                   onChange={(e) => setTextSize(parseInt(e.target.value) || 32)}
-                  style={{ ...inputStyle, padding: "6px 8px" }} />
+                  style={{ ...inputSt, padding: "6px 8px" }} />
               </div>
             </div>
-            <div className="mb-3">
-              <label style={labelSmStyle}>Text Color</label>
-              <div className="flex items-center gap-2 mt-1">
+            <div style={{ marginBottom: 12 }}>
+              <label style={labelSm}>Text Color</label>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
                 <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)}
-                  className="w-8 h-8 rounded cursor-pointer" style={{ border: "1px solid #3A3A3C", backgroundColor: "transparent" }} />
-                <span className="text-xs" style={{ color: "#8E8E93" }}>{textColor}</span>
+                  style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid #2A2A3E", backgroundColor: "transparent", cursor: "pointer" }} />
+                <span style={{ fontSize: 12, color: "#7A7A9A" }}>{textColor}</span>
               </div>
             </div>
             <button onClick={addText} disabled={!textInput.trim() || !fabricLoaded}
-              className="w-full py-2 rounded-xl text-sm font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ backgroundColor: "#4CAF50", color: "#FFFFFF" }}>
+              style={{ width: "100%", padding: "9px", borderRadius: 10, fontSize: 13, fontWeight: 700, border: "none", backgroundColor: "#4CAF50", color: "#fff", cursor: textInput.trim() && fabricLoaded ? "pointer" : "not-allowed", opacity: textInput.trim() && fabricLoaded ? 1 : 0.5 }}>
               Add Text
             </button>
           </div>
 
           {/* Selection actions */}
           {hasSelection && (
-            <div style={panelStyle}>
-              <p style={labelSmStyle}>Selected Object</p>
-              <div className="grid grid-cols-2 gap-2 mt-2">
-                <button onClick={bringForward}
-                  className="text-xs py-2 rounded-lg transition-colors"
-                  style={{ border: "1px solid #3A3A3C", color: "#EBEBF0", backgroundColor: "#1C1C1E" }}>
-                  Bring Forward
-                </button>
-                <button onClick={sendBackward}
-                  className="text-xs py-2 rounded-lg transition-colors"
-                  style={{ border: "1px solid #3A3A3C", color: "#EBEBF0", backgroundColor: "#1C1C1E" }}>
-                  Send Back
-                </button>
-                <button onClick={deleteSelected}
-                  className="col-span-2 text-xs py-2 rounded-lg transition-colors"
-                  style={{ border: "1px solid #FF453A", color: "#FF453A", backgroundColor: "rgba(255,69,58,0.08)" }}>
-                  🗑 Delete Selected
-                </button>
+            <div style={panel}>
+              <p style={labelSm}>Selected Object</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 10 }}>
+                <button onClick={bringForward} style={{ fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid #2A2A3E", color: "#ccc", backgroundColor: "#13131E", cursor: "pointer" }}>↑ Forward</button>
+                <button onClick={sendBackward} style={{ fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid #2A2A3E", color: "#ccc", backgroundColor: "#13131E", cursor: "pointer" }}>↓ Back</button>
+                <button onClick={deleteSelected} style={{ gridColumn: "1 / -1", fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid rgba(255,69,58,0.4)", color: "#FF6B6B", backgroundColor: "rgba(255,69,58,0.08)", cursor: "pointer" }}>🗑 Delete</button>
               </div>
             </div>
           )}
 
           {/* Tips */}
-          <div className="rounded-xl p-4 text-xs space-y-1" style={{ backgroundColor: "#1C1C1E", border: "1px solid #3A3A3C" }}>
-            <p className="font-semibold mb-2" style={{ color: "#EBEBF0" }}>Tips</p>
-            {["Click any object to select it", "Drag corners to resize", "Double-click text to edit inline", "Keep design inside the dashed box"].map(tip => (
-              <p key={tip} style={{ color: "#8E8E93" }}>• {tip}</p>
+          <div style={{ ...panel, backgroundColor: "#13131E" }}>
+            <p style={{ fontSize: 12, fontWeight: 700, color: "#ccc", marginBottom: 10 }}>Tips</p>
+            {["Click any object to select it", "Drag corners to resize", "Double-click text to edit", "Keep design inside the dashed box"].map(tip => (
+              <p key={tip} style={{ fontSize: 12, color: "#7A7A9A", marginBottom: 6 }}>• {tip}</p>
             ))}
           </div>
         </div>
 
-        {/* Canvas */}
-        <div className="flex-1">
+        {/* Canvas area */}
+        <div style={{ flex: 1 }}>
           {/* Front/Back toggle */}
-          <div className="flex gap-2 mb-4 justify-center">
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 16 }}>
             {(["front", "back"] as const).map((s) => (
-              <button key={s} onClick={() => flipSide(s)}
-                className="px-6 py-2 rounded-full text-sm font-semibold capitalize transition-all"
-                style={side === s
-                  ? { backgroundColor: "#4CAF50", color: "#FFFFFF" }
-                  : { border: "1px solid #3A3A3C", color: "#8E8E93", backgroundColor: "transparent" }
-                }>
+              <button key={s} onClick={() => flipSide(s)} style={{
+                padding: "9px 24px", borderRadius: 999, fontSize: 13, fontWeight: 600,
+                cursor: "pointer", transition: "all 0.2s", textTransform: "capitalize",
+                ...(side === s
+                  ? { backgroundColor: "#4CAF50", color: "#fff", border: "none" }
+                  : { backgroundColor: "transparent", border: "1px solid #2A2A3E", color: "#7A7A9A" }),
+              }}>
                 {s} of Shirt
               </button>
             ))}
           </div>
 
-          <p className="text-center text-sm mb-3" style={{ color: "#8E8E93" }}>
+          <p style={{ textAlign: "center", fontSize: 13, color: "#7A7A9A", marginBottom: 14 }}>
             {order.shirt?.name} · {order.color?.name}
           </p>
 
-          <div className="relative mx-auto rounded-2xl overflow-hidden shadow-2xl"
-            style={{ width: 400, height: 500, backgroundColor: order.color?.hex ?? "#FFFFFF", border: "1px solid #3A3A3C" }}>
+          <div style={{ position: "relative", margin: "0 auto", borderRadius: 20, overflow: "hidden", width: 380, height: 480, backgroundColor: order.color?.hex ?? "#fff", border: "1px solid #2A2A3E", boxShadow: "0 20px 60px rgba(0,0,0,0.4)" }}>
             {!fabricLoaded && (
-              <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: "#2C2C2E" }}>
-                <div className="text-center">
-                  <div className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-2"
-                    style={{ borderColor: "#4CAF50", borderTopColor: "transparent" }} />
-                  <p className="text-sm" style={{ color: "#8E8E93" }}>Loading studio...</p>
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#1D1D2C" }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ width: 32, height: 32, border: "3px solid #4CAF50", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 12px" }} />
+                  <p style={{ fontSize: 13, color: "#7A7A9A" }}>Loading studio...</p>
                 </div>
               </div>
             )}
             <canvas ref={canvasRef} />
           </div>
-          <p className="text-center text-xs mt-3" style={{ color: "#8E8E93" }}>
-            The dashed green box shows your printable area. Keep your design inside for best results.
+          <p style={{ textAlign: "center", fontSize: 12, color: "#4A4A6A", marginTop: 12 }}>
+            Keep your design inside the dashed green box for best print results.
           </p>
         </div>
       </div>
 
-      <div className="flex justify-between mt-10">
-        <button onClick={onBack}
-          className="px-8 py-4 rounded-full font-semibold border"
-          style={{ borderColor: "#3A3A3C", color: "#8E8E93" }}>
-          ← Back
-        </button>
-        <button onClick={handleContinue}
-          className="px-10 py-4 rounded-full font-bold text-lg transition-all"
-          style={{ backgroundColor: "#4CAF50", color: "#FFFFFF" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 36 }}>
+        <button onClick={onBack} style={{ padding: "13px 28px", borderRadius: 999, fontWeight: 600, fontSize: 15, border: "1px solid #2A2A3E", color: "#7A7A9A", backgroundColor: "transparent", cursor: "pointer" }}>← Back</button>
+        <button onClick={handleContinue} style={{
+          backgroundColor: "#4CAF50", color: "#fff", border: "none",
+          padding: "13px 36px", borderRadius: 999, fontWeight: 700, fontSize: 16, cursor: "pointer", transition: "transform 0.2s",
+        }}
+          onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
+          onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+        >
           Review Order →
         </button>
       </div>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .studio-layout { flex-direction: row; }
+        .studio-tools { display: flex; }
+        @media (max-width: 780px) {
+          .studio-layout { flex-direction: column !important; }
+          .studio-tools { width: 100% !important; flex-direction: row !important; flex-wrap: wrap; }
+        }
+      `}</style>
     </div>
   );
 }

@@ -39,7 +39,7 @@ export default function DesignPage() {
   function goBack() { setStep((s) => Math.max(s - 1, 0)); }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#13131E" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#13131E", paddingTop: 80 }}>
       {/* Progress bar */}
       <div style={{
         position: "sticky", top: 80, zIndex: 40,
