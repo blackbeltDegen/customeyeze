@@ -138,6 +138,8 @@ const labelSm: React.CSSProperties = { display: "block", fontSize: 11, color: "#
 export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<FabricCanvas | null>(null);
+  // Persists each side's canvas objects so switching back restores them
+  const sideData = useRef<{ front: object | null; back: object | null }>({ front: null, back: null });
   const [side, setSide] = useState<"front" | "back">(order.designSide);
   const [textInput, setTextInput] = useState("");
   const [textColor, setTextColor] = useState("#000000");
@@ -146,19 +148,15 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
   const [hasSelection, setHasSelection] = useState(false);
   const [fabricLoaded, setFabricLoaded] = useState(false);
 
+  // initCanvas has no `side` dependency — canvas is initialized once and reused for both sides
   const initCanvas = useCallback(async () => {
     if (!canvasRef.current) return;
     const fabric = await import("fabric");
     setFabricLoaded(true);
     if (fabricRef.current) fabricRef.current.dispose();
 
-    // Use current side's print area dimensions
-    const p = PRINT[side];
-    const canvas = new fabric.Canvas(canvasRef.current, {
-      width: p.w,
-      height: p.h,
-      // No backgroundColor — canvas is transparent so the shirt SVG shows through
-    });
+    const { w, h } = PRINT.front; // both sides share the same dimensions
+    const canvas = new fabric.Canvas(canvasRef.current, { width: w, height: h });
     fabricRef.current = canvas;
 
     canvas.on("selection:created", () => setHasSelection(true));
@@ -166,7 +164,7 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
     canvas.on("selection:updated", () => setHasSelection(true));
 
     canvas.renderAll();
-  }, [side]);
+  }, []);
 
   useEffect(() => {
     initCanvas();
@@ -229,11 +227,28 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
     if (canvas && active) { canvas.sendObjectBackwards(active); canvas.renderAll(); }
   }
 
-  function flipSide(newSide: "front" | "back") {
-    if (!fabricRef.current) return;
-    const dataUrl = fabricRef.current.toDataURL({ format: "png", multiplier: 2 });
-    onUpdate({ designDataUrl: dataUrl, designSide: newSide });
-    // Clear objects — initCanvas re-runs because `side` changes
+  async function flipSide(newSide: "front" | "back") {
+    const canvas = fabricRef.current;
+    if (!canvas || newSide === side) return;
+
+    // Save current side's canvas objects
+    sideData.current[side] = canvas.toJSON();
+
+    // Clear user objects from canvas
+    const userObjs = canvas.getObjects().filter(
+      (o) => (o as { selectable?: boolean }).selectable !== false
+    );
+    userObjs.forEach((o) => canvas.remove(o));
+
+    // Restore new side's saved objects if any
+    const saved = sideData.current[newSide];
+    if (saved) {
+      const fabric = await import("fabric");
+      await canvas.loadFromJSON(saved);
+    }
+    canvas.renderAll();
+
+    onUpdate({ designSide: newSide });
     setSide(newSide);
   }
 
