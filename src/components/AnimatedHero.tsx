@@ -74,9 +74,7 @@ export default function AnimatedHero() {
               {[["No", "Minimums"], ["~1 Wk", "Turnaround"], ["∞", "Colors"]].map(([big, small]) => (
                 <div key={big} style={{ display: "flex", flexDirection: "column" }}>
                   <span style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 900, color: "#4CAF50", lineHeight: 1 }}>{big}</span>
-                  <span style={{ fontSize: 11, color: "#6060808", marginTop: 4, letterSpacing: "0.08em", color: "#7070908" }}>
-                    <span style={{ fontSize: 11, color: "#7A7A9A", marginTop: 4, letterSpacing: "0.08em" }}>{small}</span>
-                  </span>
+                  <span style={{ fontSize: 11, color: "#7A7A9A", marginTop: 4, letterSpacing: "0.08em" }}>{small}</span>
                 </div>
               ))}
             </motion.div>
