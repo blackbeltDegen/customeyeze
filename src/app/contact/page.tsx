@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import AnimatedSection from "@/components/AnimatedSection";
+import { Mail, Clock, Printer, PartyPopper } from "lucide-react";
 
 const cxWide = { maxWidth: 1100, margin: "0 auto", padding: "0 32px" };
 const cx = { maxWidth: 860, margin: "0 auto", padding: "0 32px" };
@@ -45,7 +46,7 @@ export default function ContactPage() {
         <div style={{ position: "relative", ...cx }}>
           <AnimatedSection>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 20, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Get in Touch</span>
-            <h1 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(36px, 5vw, 68px)", fontWeight: 900, color: "#fff", letterSpacing: "-2px", lineHeight: 1.05, marginBottom: 20 }}>
+            <h1 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(36px, 5vw, 68px)", fontWeight: 400, color: "#fff", letterSpacing: "-2px", lineHeight: 1.05, marginBottom: 20 }}>
               Let&apos;s Talk Shirts
             </h1>
             <p style={{ fontSize: 18, color: "#7A7A9A", maxWidth: 480, margin: "0 auto" }}>
@@ -60,22 +61,22 @@ export default function ContactPage() {
         <div style={{ ...cxWide, display: "grid", gap: 56, alignItems: "flex-start" }} className="contact-grid">
           {/* Left — info */}
           <AnimatedSection>
-            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 800, color: "#fff", marginBottom: 32 }}>
+            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 32 }}>
               We&apos;d love to hear from you
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 36 }}>
               {[
-                { icon: "✉️", label: "Email", value: "hello@customeyeze.com", link: "mailto:hello@customeyeze.com" },
-                { icon: "⏱️", label: "Response Time", value: "Within 1 business day", link: null },
-                { icon: "🖨️", label: "Turnaround", value: "Orders ready in ~1 week", link: null },
-              ].map(({ icon, label, value, link }) => (
+                { Icon: Mail, label: "Email", value: "hello@customeyeze.com", link: "mailto:hello@customeyeze.com" },
+                { Icon: Clock, label: "Response Time", value: "Within 1 business day", link: null },
+                { Icon: Printer, label: "Turnaround", value: "Orders ready in ~1 week", link: null },
+              ].map(({ Icon, label, value, link }) => (
                 <div key={label} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
                   <div style={{
                     width: 44, height: 44, borderRadius: 12, flexShrink: 0,
                     backgroundColor: "rgba(76,175,80,0.1)", border: "1px solid rgba(76,175,80,0.2)",
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
+                    display: "flex", alignItems: "center", justifyContent: "center",
                   }}>
-                    {icon}
+                    <Icon size={18} color="#4CAF50" strokeWidth={2} />
                   </div>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 600, color: "#fff", marginBottom: 3 }}>{label}</p>
@@ -106,11 +107,11 @@ export default function ContactPage() {
 
           {/* Right — form */}
           <AnimatedSection delay={0.12}>
-            <div style={{ backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 24, padding: "40px 36px" }}>
+            <div style={{ backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 20, padding: "40px 36px" }}>
               {submitted ? (
                 <div style={{ textAlign: "center", padding: "48px 0" }}>
-                  <div style={{ fontSize: 64, marginBottom: 20 }}>🎉</div>
-                  <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 800, color: "#fff", marginBottom: 10 }}>Got it, thanks!</h3>
+                  <div style={{ marginBottom: 20, display: "flex", justifyContent: "center" }}><PartyPopper size={56} color="#4CAF50" strokeWidth={1.5} /></div>
+                  <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 10 }}>Got it, thanks!</h3>
                   <p style={{ fontSize: 15, color: "#7A7A9A" }}>We&apos;ll review your request and get back to you within 1 business day.</p>
                 </div>
               ) : (

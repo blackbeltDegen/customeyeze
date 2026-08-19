@@ -27,7 +27,7 @@ export default function TiltCard({ children, style, className }: Props) {
     if (!card) return;
     card.style.transform = "perspective(800px) rotateY(0deg) rotateX(0deg) translateY(0) scale(1)";
     card.style.boxShadow = "none";
-    card.style.borderColor = "#1F1F1F";
+    card.style.borderColor = "#2A2A3E";
   };
 
   return (
@@ -38,7 +38,7 @@ export default function TiltCard({ children, style, className }: Props) {
       onMouseLeave={handleMouseLeave}
       style={{
         transition: "transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease",
-        border: "1px solid #1F1F1F",
+        border: "1px solid #2A2A3E",
         willChange: "transform",
         ...style,
       }}

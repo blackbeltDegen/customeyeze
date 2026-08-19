@@ -4,29 +4,30 @@ import Link from "next/link";
 import AnimatedHero from "@/components/AnimatedHero";
 import Marquee from "@/components/Marquee";
 import AnimatedSection from "@/components/AnimatedSection";
-import TiltCard from "@/components/TiltCard";
+import ProcessTimeline from "@/components/ProcessTimeline";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import RevealSection from "@/components/home/RevealSection";
 import ParallaxLayer from "@/components/home/ParallaxLayer";
 import Gallery from "@/components/home/Gallery";
 import ExplodedProcess from "@/components/home/ExplodedProcess";
 import Testimonials from "@/components/home/Testimonials";
+import { Shirt, Palette, Package, Trophy, GraduationCap, Briefcase, PartyPopper, User } from "lucide-react";
 
 const cx = { maxWidth: 1280, margin: "0 auto", padding: "0 32px" };
 
 const steps = [
-  { n: "01", emoji: "👕", title: "Pick Your Shirt", body: "Soft, medium, or standard — choose the fabric feel and style that fits your order." },
-  { n: "02", emoji: "🎨", title: "Design It", body: "Upload your artwork, add text, place it on the front or back. Your vision, your rules." },
-  { n: "03", emoji: "📦", title: "Pay & We Ship", body: "Secure checkout via Stripe. We review, print, and deliver in about a week." },
+  { number: "01", icon: <Shirt size={22} strokeWidth={1.75} />, title: "Pick Your Shirt", desc: "Soft, medium, or standard — choose the fabric feel and style that fits your order." },
+  { number: "02", icon: <Palette size={22} strokeWidth={1.75} />, title: "Design It", desc: "Upload your artwork, add text, place it on the front or back. Your vision, your rules." },
+  { number: "03", icon: <Package size={22} strokeWidth={1.75} />, title: "Pay & We Ship", desc: "Secure checkout via Stripe. We review, print, and deliver in about a week." },
 ];
 
 const useCases = [
-  { icon: "⚽", title: "Sports Teams", body: "Jerseys, practice tees, fan gear. Match your exact colors." },
-  { icon: "🎓", title: "Schools & Clubs", body: "Spirit wear, graduation, events. Bulk pricing makes it painless." },
-  { icon: "👔", title: "Brands & Business", body: "Merch, uniforms, promo drops that actually look premium." },
-  { icon: "🎉", title: "Events", body: "Reunions, bachelorettes, fundraisers — make every event memorable." },
-  { icon: "🙋", title: "Just You", body: "Order a single shirt. No minimums, no questions asked." },
-  { icon: "🎨", title: "Creators", body: "Drop your own merch. We handle printing, you keep the vision." },
+  { Icon: Trophy, title: "Sports Teams", body: "Jerseys, practice tees, fan gear. Match your exact colors down to the thread.", featured: true },
+  { Icon: GraduationCap, title: "Schools & Clubs", body: "Spirit wear, graduation, events." },
+  { Icon: Briefcase, title: "Brands & Business", body: "Merch, uniforms, and promo drops that actually look premium, not printed in a rush.", featured: true },
+  { Icon: PartyPopper, title: "Events", body: "Reunions, bachelorettes, fundraisers." },
+  { Icon: User, title: "Just You", body: "One shirt. No minimums." },
+  { Icon: Palette, title: "Creators", body: "Drop your own merch line." },
 ];
 
 const pricing = [
@@ -52,27 +53,23 @@ export default function HomePage() {
         <div style={cx}>
           <RevealSection style={{ textAlign: "center", marginBottom: 64 }}>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>The Process</span>
-            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginTop: 14 }}>
+            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 400, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.08, marginTop: 14 }}>
               Simple as 1, 2, 3.
             </h2>
           </RevealSection>
 
-          <div style={{ display: "grid", gap: 20 }} className="steps-grid">
-            {steps.map((s, i) => (
-              <AnimatedSection key={s.n} delay={i * 0.12}>
-                <TiltCard style={{ backgroundColor: "#1D1D2C", borderRadius: 24, padding: "40px 32px", height: "100%" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
-                    <span style={{ fontSize: 40 }}>{s.emoji}</span>
-                    <span style={{ fontFamily: "var(--font-poppins)", fontSize: 56, fontWeight: 900, color: "rgba(76,175,80,0.12)", lineHeight: 1 }}>{s.n}</span>
-                  </div>
-                  <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 21, fontWeight: 700, color: "#fff", marginBottom: 10 }}>{s.title}</h3>
-                  <p style={{ fontSize: 15, color: "#7A7A9A", lineHeight: 1.7 }}>{s.body}</p>
-                </TiltCard>
-              </AnimatedSection>
-            ))}
+          <div style={{ maxWidth: 640, margin: "0 auto" }}>
+            <ProcessTimeline
+              steps={steps}
+              renderStep={(i, node) => (
+                <RevealSection key={i} delay={i * 0.1}>
+                  {node}
+                </RevealSection>
+              )}
+            />
           </div>
 
-          <AnimatedSection style={{ textAlign: "center", marginTop: 52 }}>
+          <AnimatedSection style={{ textAlign: "center", marginTop: 12 }}>
             <Link href="/design" className="btn-glow" style={{
               display: "inline-block", backgroundColor: "#4CAF50", color: "#fff",
               padding: "15px 40px", borderRadius: 999, fontWeight: 700, fontSize: 16,
@@ -104,19 +101,33 @@ export default function HomePage() {
         <div style={cx}>
           <RevealSection style={{ marginBottom: 64 }}>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Who It&apos;s For</span>
-            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, maxWidth: 480, marginTop: 14 }}>
+            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 400, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.08, maxWidth: 480, marginTop: 14 }}>
               Built for everyone.
             </h2>
           </RevealSection>
 
           <div style={{ display: "grid", gap: 16 }} className="use-case-grid">
             {useCases.map((u, i) => (
-              <AnimatedSection key={u.title} delay={i * 0.07}>
-                <TiltCard style={{ backgroundColor: "#1D1D2C", borderRadius: 24, padding: "30px 26px", height: "100%" }}>
-                  <span style={{ fontSize: 38, display: "block", marginBottom: 16 }}>{u.icon}</span>
-                  <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 17, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{u.title}</h3>
-                  <p style={{ fontSize: 14, color: "#7A7A9A", lineHeight: 1.7 }}>{u.body}</p>
-                </TiltCard>
+              <AnimatedSection key={u.title} delay={i * 0.07} className={u.featured ? "use-case-featured" : undefined}>
+                <div style={{
+                  backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 20, height: "100%",
+                  padding: u.featured ? "34px 30px" : "24px 22px",
+                  display: "flex", flexDirection: u.featured ? "column" : "row", alignItems: u.featured ? "flex-start" : "center",
+                  gap: u.featured ? 0 : 14,
+                }}>
+                  <div style={{
+                    width: u.featured ? 48 : 40, height: u.featured ? 48 : 40, borderRadius: 12, flexShrink: 0,
+                    backgroundColor: "rgba(76,175,80,0.1)", border: "1px solid rgba(76,175,80,0.2)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    marginBottom: u.featured ? 18 : 0,
+                  }}>
+                    <u.Icon size={u.featured ? 24 : 19} color="#4CAF50" strokeWidth={1.75} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: u.featured ? 19 : 15, fontWeight: 400, color: "#fff", marginBottom: u.featured ? 8 : 2 }}>{u.title}</h3>
+                    <p style={{ fontSize: u.featured ? 14 : 13, color: "#7A7A9A", lineHeight: 1.6 }}>{u.body}</p>
+                  </div>
+                </div>
               </AnimatedSection>
             ))}
           </div>
@@ -131,7 +142,7 @@ export default function HomePage() {
         <div style={cx}>
           <RevealSection style={{ textAlign: "center", marginBottom: 64 }}>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Pricing</span>
-            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginTop: 14 }}>
+            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 400, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.08, marginTop: 14 }}>
               More shirts,<br />lower price.
             </h2>
             <p style={{ fontSize: 16, color: "#7A7A9A", marginTop: 12 }}>No minimums. Ever.</p>
@@ -152,7 +163,7 @@ export default function HomePage() {
                   <p style={{ fontSize: 11, color: tier.hot ? "rgba(255,255,255,0.75)" : "#4A4A6A", marginBottom: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{tier.label}</p>
                   {tier.hot && <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.2em", color: "rgba(255,255,255,0.9)", textTransform: "uppercase", marginBottom: 8, backgroundColor: "rgba(0,0,0,0.15)", display: "inline-block", padding: "3px 10px", borderRadius: 999 }}>MOST POPULAR</p>}
                   <p style={{ fontSize: 12, fontWeight: 700, color: tier.hot ? "rgba(255,255,255,0.8)" : "#7A7A9A", marginBottom: 10, letterSpacing: "0.12em", textTransform: "uppercase" }}>{tier.qty} shirts</p>
-                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: 40, fontWeight: 900, color: tier.hot ? "#fff" : "#4CAF50", letterSpacing: "-1px", lineHeight: 1 }}>{tier.price}</p>
+                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: 40, fontWeight: 400, color: tier.hot ? "#fff" : "#4CAF50", letterSpacing: "-1px", lineHeight: 1 }}>{tier.price}</p>
                   <p style={{ fontSize: 12, color: tier.hot ? "rgba(255,255,255,0.6)" : "#4A4A6A", marginTop: 8 }}>per shirt</p>
                 </div>
               </AnimatedSection>
@@ -172,7 +183,7 @@ export default function HomePage() {
         <div style={{ position: "relative", ...cx }}>
           <RevealSection>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 20, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Ready?</span>
-            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(42px, 6vw, 84px)", fontWeight: 900, color: "#fff", letterSpacing: "-2px", lineHeight: 1.0, marginBottom: 20, marginTop: 14 }}>
+            <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(42px, 6vw, 84px)", fontWeight: 400, color: "#fff", letterSpacing: "-1px", lineHeight: 1.0, marginBottom: 20, marginTop: 14 }}>
               Let&apos;s build<br />something.
             </h2>
             <p style={{ fontSize: 18, color: "#7A7A9A", marginBottom: 48 }}>Free to start. Easy to use. Ready in about a week.</p>
@@ -203,16 +214,17 @@ export default function HomePage() {
       </section>
 
       <style>{`
-        .steps-grid { grid-template-columns: repeat(3, 1fr); }
         .use-case-grid { grid-template-columns: repeat(3, 1fr); }
+        .use-case-featured { grid-column: span 2; }
         .pricing-grid { grid-template-columns: repeat(4, 1fr); }
         @media (max-width: 960px) {
-          .steps-grid { grid-template-columns: 1fr !important; }
           .use-case-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .use-case-featured { grid-column: span 2 !important; }
           .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 560px) {
           .use-case-grid { grid-template-columns: 1fr !important; }
+          .use-case-featured { grid-column: span 1 !important; }
           .pricing-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>

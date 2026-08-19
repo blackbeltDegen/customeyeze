@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Anton } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,10 +9,13 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const poppins = Poppins({
+// Condensed poster/stencil display face — replaces Poppins for all headings/
+// numerals sitewide. Variable name kept as --font-poppins to avoid touching
+// the ~34 call sites across the codebase that reference it.
+const poppins = Anton({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {

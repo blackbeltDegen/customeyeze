@@ -3,6 +3,7 @@
 import { OrderState } from "@/app/design/page";
 import Image from "next/image";
 import Link from "next/link";
+import { Clock } from "lucide-react";
 
 type Props = { order: OrderState; onBack: () => void };
 
@@ -25,7 +26,7 @@ export default function StepReview({ order, onBack }: Props) {
     <div style={{ maxWidth: 600, margin: "0 auto" }}>
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Step 4 of 4</span>
-        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>Review Your Order</h2>
+        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>Review Your Order</h2>
         <p style={{ fontSize: 15, color: "#7A7A9A" }}>Everything look good? Proceed to checkout when ready.</p>
       </div>
 
@@ -67,7 +68,7 @@ export default function StepReview({ order, onBack }: Props) {
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 16, borderTop: "1px solid #2A2A3E" }}>
               <span style={{ fontSize: 17, fontWeight: 700, color: "#fff" }}>Subtotal</span>
-              <span style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 900, color: "#4CAF50" }}>${subtotal}</span>
+              <span style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 400, color: "#4CAF50" }}>${subtotal}</span>
             </div>
             <p style={{ fontSize: 12, color: "#4A4A6A" }}>Shipping and taxes calculated at checkout.</p>
           </div>
@@ -76,7 +77,7 @@ export default function StepReview({ order, onBack }: Props) {
 
       {/* Turnaround note */}
       <div style={{ ...card, padding: "20px 24px", display: "flex", gap: 16, alignItems: "center", marginBottom: 32 }}>
-        <span style={{ fontSize: 32 }}>⏱️</span>
+        <Clock size={30} color="#4CAF50" strokeWidth={1.5} />
         <div>
           <p style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 4 }}>Ready in ~1 week</p>
           <p style={{ fontSize: 13, color: "#7A7A9A", lineHeight: 1.65 }}>

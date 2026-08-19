@@ -53,7 +53,7 @@ export default function DesignPage() {
                   <div style={{
                     width: 34, height: 34, borderRadius: "50%",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontFamily: "var(--font-poppins)", fontWeight: 800, fontSize: 13,
+                    fontFamily: "var(--font-poppins)", fontWeight: 400, fontSize: 13,
                     transition: "all 0.3s",
                     ...(i < step
                       ? { backgroundColor: "#4CAF50", color: "#fff" }

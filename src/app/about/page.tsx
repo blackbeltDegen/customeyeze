@@ -15,7 +15,7 @@ export default function AboutPage() {
         <div style={{ position: "relative", ...cx }}>
           <AnimatedSection>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 20, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Our Story</span>
-            <h1 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(36px, 5vw, 68px)", fontWeight: 900, color: "#fff", letterSpacing: "-2px", lineHeight: 1.05, marginBottom: 20 }}>
+            <h1 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(36px, 5vw, 68px)", fontWeight: 400, color: "#fff", letterSpacing: "-2px", lineHeight: 1.05, marginBottom: 20 }}>
               About Customeyeze
             </h1>
             <p style={{ fontSize: 18, color: "#7A7A9A", maxWidth: 500, margin: "0 auto" }}>
@@ -30,7 +30,7 @@ export default function AboutPage() {
         <div style={{ ...cx, display: "flex", flexDirection: "column", gap: 24 }}>
           <AnimatedSection>
             <TiltCard style={{ backgroundColor: "#1D1D2C", borderRadius: 24, padding: "40px 36px" }}>
-              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 16 }}>Our Story</h2>
+              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 400, color: "#fff", marginBottom: 16 }}>Our Story</h2>
               <p style={{ fontSize: 15, color: "#7A7A9A", lineHeight: 1.8, marginBottom: 14 }}>
                 Customeyeze was born out of frustration. Getting custom shirts used to mean confusing order forms,
                 high minimums, slow turnaround, and designs that never quite looked the way you imagined.
@@ -45,7 +45,7 @@ export default function AboutPage() {
 
           <AnimatedSection delay={0.1}>
             <TiltCard style={{ backgroundColor: "#1D1D2C", borderRadius: 24, padding: "40px 36px" }}>
-              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 16 }}>What We Do</h2>
+              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 400, color: "#fff", marginBottom: 16 }}>What We Do</h2>
               <p style={{ fontSize: 15, color: "#7A7A9A", lineHeight: 1.8, marginBottom: 14 }}>
                 We specialize in <strong style={{ color: "#4CAF50" }}>DTF (Direct to Film)</strong> printing — one of the most versatile and vibrant
                 printing methods available. It works on virtually any fabric, supports full-color designs with no color
@@ -59,7 +59,7 @@ export default function AboutPage() {
 
           <AnimatedSection delay={0.15}>
             <TiltCard style={{ backgroundColor: "#1D1D2C", borderRadius: 24, padding: "40px 36px" }}>
-              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 24 }}>Who We Serve</h2>
+              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: 22, fontWeight: 400, color: "#fff", marginBottom: 24 }}>Who We Serve</h2>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }} className="who-grid">
                 {["Sports Teams", "Schools & Clubs", "Small Businesses", "Brands & Creators", "Events & Parties", "Individuals"].map((item) => (
                   <div key={item} style={{

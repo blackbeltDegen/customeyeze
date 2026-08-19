@@ -7,24 +7,24 @@ const cx = { maxWidth: 1280, margin: "0 auto", padding: "0 32px" };
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: "#0B0B14", borderTop: "1px solid #2A2A3E" }}>
+    <footer style={{ backgroundColor: "#0F0F18", borderTop: "1px solid #2A2A3E" }}>
       <div style={{ ...cx, paddingTop: 64, paddingBottom: 48 }}>
         <div style={{ display: "grid", gap: 48, marginBottom: 48 }} className="footer-grid">
           <div>
             <div style={{ marginBottom: 20 }}><Logo size={26} /></div>
-            <p style={{ fontSize: 14, color: "#444", lineHeight: 1.8, maxWidth: 280 }}>
+            <p style={{ fontSize: 14, color: "#7A7A9A", lineHeight: 1.8, maxWidth: 280 }}>
               Professional DTF printing on custom apparel. No minimums, fast turnaround, and a design tool built for everyone.
             </p>
           </div>
 
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#333", marginBottom: 20 }}>Navigate</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#4A4A6A", marginBottom: 20 }}>Navigate</p>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
               {[["Home", "/"], ["How It Works", "/how-it-works"], ["About", "/about"], ["Contact", "/contact"]].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} style={{ fontSize: 14, color: "#444", textDecoration: "none", transition: "color 0.2s" }}
+                  <Link href={href} style={{ fontSize: 14, color: "#7A7A9A", textDecoration: "none", transition: "color 0.2s" }}
                     onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                    onMouseLeave={e => (e.currentTarget.style.color = "#444")}>
+                    onMouseLeave={e => (e.currentTarget.style.color = "#7A7A9A")}>
                     {label}
                   </Link>
                 </li>
@@ -33,15 +33,15 @@ export default function Footer() {
           </div>
 
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#333", marginBottom: 20 }}>Get Started</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#4A4A6A", marginBottom: 20 }}>Get Started</p>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
               <li><Link href="/design" style={{ fontSize: 14, color: "#4CAF50", textDecoration: "none", fontWeight: 600 }}>Design Your Shirt →</Link></li>
-              <li><Link href="/contact" style={{ fontSize: 14, color: "#444", textDecoration: "none", transition: "color 0.2s" }}
+              <li><Link href="/contact" style={{ fontSize: 14, color: "#7A7A9A", textDecoration: "none", transition: "color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                onMouseLeave={e => (e.currentTarget.style.color = "#444")}>Request a Quote</Link></li>
+                onMouseLeave={e => (e.currentTarget.style.color = "#7A7A9A")}>Request a Quote</Link></li>
             </ul>
             <div style={{ marginTop: 24 }}>
-              <p style={{ fontSize: 12, color: "#333", marginBottom: 6 }}>Questions?</p>
+              <p style={{ fontSize: 12, color: "#4A4A6A", marginBottom: 6 }}>Questions?</p>
               <a href="mailto:hello@customeyeze.com" style={{ fontSize: 13, color: "#4CAF50", textDecoration: "none", fontWeight: 600 }}>
                 hello@customeyeze.com
               </a>

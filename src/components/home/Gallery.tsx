@@ -19,7 +19,7 @@ export default function Gallery() {
           <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>
             Recent Work
           </span>
-          <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginTop: 14 }}>
+          <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 400, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginTop: 14 }}>
             Every print starts<br />as someone&apos;s idea.
           </h2>
         </RevealSection>
@@ -45,8 +45,9 @@ export default function Gallery() {
                 }}
               >
                 <div className="gallery-sheen" />
+                <div className="gallery-peel" aria-hidden="true" />
                 <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 8 }}>{p.tag}</span>
-                <span style={{ fontFamily: "var(--font-poppins)", fontSize: 21, fontWeight: 700, color: "#fff" }}>{p.title}</span>
+                <span style={{ fontFamily: "var(--font-poppins)", fontSize: 21, fontWeight: 400, color: "#fff" }}>{p.title}</span>
               </div>
             </RevealSection>
           ))}
@@ -75,6 +76,16 @@ export default function Gallery() {
           transition: transform 0.7s ease;
         }
         .gallery-tile:hover .gallery-sheen { transform: translateX(120%); }
+
+        /* Signature motif: the DTF transfer film lifting at the corner */
+        .gallery-peel {
+          position: absolute; top: 0; right: 0; width: 26px; height: 26px;
+          background: linear-gradient(135deg, #4CAF50 50%, #2E7D32 50%);
+          clip-path: polygon(100% 0, 0 0, 100% 100%);
+          transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+          filter: drop-shadow(-2px 2px 4px rgba(0,0,0,0.35));
+        }
+        .gallery-tile:hover .gallery-peel { width: 58px; height: 58px; }
 
         @media (max-width: 900px) {
           .gallery-grid { grid-template-columns: repeat(2, 1fr); }

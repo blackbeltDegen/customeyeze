@@ -37,7 +37,7 @@ export default function StepShirtStyle({ order, onUpdate, onNext, onBack }: Prop
     <div>
       <div style={{ textAlign: "center", marginBottom: 48 }}>
         <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Step 2 of 4</span>
-        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>
+        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>
           Pick your style &amp; color
         </h2>
         <p style={{ fontSize: 15, color: "#7A7A9A" }}>Showing {order.feel} feel options.</p>
@@ -58,11 +58,11 @@ export default function StepShirtStyle({ order, onUpdate, onNext, onBack }: Prop
               }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                 <div>
-                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: 16, fontWeight: 800, color: selected ? "#4CAF50" : "#fff", marginBottom: 3 }}>{shirt.name}</p>
+                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: 16, fontWeight: 400, color: selected ? "#4CAF50" : "#fff", marginBottom: 3 }}>{shirt.name}</p>
                   <p style={{ fontSize: 13, color: "#7A7A9A" }}>{shirt.brand}</p>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: 20, fontWeight: 900, color: "#4CAF50" }}>${getPrice(shirt.price, order.quantity)}</p>
+                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: 20, fontWeight: 400, color: "#4CAF50" }}>${getPrice(shirt.price, order.quantity)}</p>
                   <p style={{ fontSize: 11, color: "#7A7A9A" }}>per shirt</p>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function StepShirtStyle({ order, onUpdate, onNext, onBack }: Prop
         {order.shirt && (
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 16, borderTop: "1px solid #2A2A3E" }}>
             <span style={{ fontSize: 14, color: "#7A7A9A" }}>{order.quantity} shirt{order.quantity !== 1 ? "s" : ""} × ${getPrice(order.shirt.price, order.quantity)}</span>
-            <span style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 900, color: "#4CAF50" }}>${total}</span>
+            <span style={{ fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 400, color: "#4CAF50" }}>${total}</span>
           </div>
         )}
       </div>

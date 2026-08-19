@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { Upload, Trash2 } from "lucide-react";
 import { OrderState } from "@/app/design/page";
 
 type Props = {
@@ -131,7 +132,7 @@ function PrintGuide({ side }: { side: "front" | "back" }) {
   );
 }
 
-const panel: React.CSSProperties = { backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 16, padding: "18px" };
+const panel: React.CSSProperties = { backgroundColor: "#1D1D2C", border: "1px solid #2A2A3E", borderRadius: 20, padding: "18px" };
 const inputSt: React.CSSProperties = { backgroundColor: "#13131E", border: "1px solid #2A2A3E", color: "#fff", borderRadius: 10, padding: "8px 12px", width: "100%", fontSize: 13, outline: "none" };
 const labelSm: React.CSSProperties = { display: "block", fontSize: 11, color: "#7A7A9A", marginBottom: 5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" };
 
@@ -265,7 +266,7 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
     <div>
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Step 3 of 4</span>
-        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>Design Studio</h2>
+        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>Design Studio</h2>
         <p style={{ fontSize: 15, color: "#7A7A9A" }}>Upload your artwork and make it yours.</p>
       </div>
 
@@ -278,7 +279,7 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
             <label style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: "pointer", border: "2px dashed #2A2A3E", borderRadius: 12, padding: "18px 12px", marginTop: 10, transition: "border-color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = "#4CAF50")}
               onMouseLeave={e => (e.currentTarget.style.borderColor = "#2A2A3E")}>
-              <span style={{ fontSize: 26 }}>📁</span>
+              <Upload size={24} color="#4CAF50" strokeWidth={1.75} />
               <span style={{ fontSize: 13, fontWeight: 600, color: "#4CAF50" }}>Click to upload</span>
               <span style={{ fontSize: 11, color: "#7A7A9A" }}>PNG, JPG, SVG</span>
               <input type="file" accept="image/*" style={{ display: "none" }} onChange={uploadImage} />
@@ -327,7 +328,7 @@ export default function StepDesignStudio({ order, onUpdate, onNext, onBack }: Pr
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 10 }}>
                 <button onClick={bringForward} style={{ fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid #2A2A3E", color: "#ccc", backgroundColor: "#13131E", cursor: "pointer" }}>↑ Forward</button>
                 <button onClick={sendBackward} style={{ fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid #2A2A3E", color: "#ccc", backgroundColor: "#13131E", cursor: "pointer" }}>↓ Back</button>
-                <button onClick={deleteSelected} style={{ gridColumn: "1 / -1", fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid rgba(255,80,80,0.4)", color: "#FF6B6B", backgroundColor: "rgba(255,80,80,0.08)", cursor: "pointer" }}>🗑 Delete</button>
+                <button onClick={deleteSelected} style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 12, padding: "8px", borderRadius: 8, border: "1px solid rgba(255,80,80,0.4)", color: "#FF6B6B", backgroundColor: "rgba(255,80,80,0.08)", cursor: "pointer" }}><Trash2 size={14} strokeWidth={1.75} /> Delete</button>
               </div>
             </div>
           )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { Cloud, Shirt, Dumbbell } from "lucide-react";
 import { OrderState, ShirtFeel } from "@/app/design/page";
 
 type Props = {
@@ -8,10 +9,10 @@ type Props = {
   onNext: () => void;
 };
 
-const feels: { id: ShirtFeel; label: string; emoji: string; desc: string; example: string }[] = [
-  { id: "soft", label: "Soft & Premium", emoji: "☁️", desc: "Super soft, lightweight, and comfortable. Great for everyday wear and premium brands.", example: "e.g. Bella+Canvas, Next Level" },
-  { id: "medium", label: "Medium Weight", emoji: "👕", desc: "Balanced comfort and durability. The go-to for most teams, events, and schools.", example: "e.g. Comfort Colors, Hanes Beefy" },
-  { id: "standard", label: "Standard / Classic", emoji: "💪", desc: "Heavier, more structured feel. Great for workwear, outdoor use, and lasting gear.", example: "e.g. Gildan Heavy Cotton" },
+const feels: { id: ShirtFeel; label: string; icon: typeof Cloud; desc: string; example: string }[] = [
+  { id: "soft", label: "Soft & Premium", icon: Cloud, desc: "Super soft, lightweight, and comfortable. Great for everyday wear and premium brands.", example: "e.g. Bella+Canvas, Next Level" },
+  { id: "medium", label: "Medium Weight", icon: Shirt, desc: "Balanced comfort and durability. The go-to for most teams, events, and schools.", example: "e.g. Comfort Colors, Hanes Beefy" },
+  { id: "standard", label: "Standard / Classic", icon: Dumbbell, desc: "Heavier, more structured feel. Great for workwear, outdoor use, and lasting gear.", example: "e.g. Gildan Heavy Cotton" },
 ];
 
 export default function StepShirtFeel({ order, onUpdate, onNext }: Props) {
@@ -19,7 +20,7 @@ export default function StepShirtFeel({ order, onUpdate, onNext }: Props) {
     <div>
       <div style={{ textAlign: "center", marginBottom: 48 }}>
         <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Step 1 of 4</span>
-        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>
+        <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: "#fff", letterSpacing: "-1px", marginTop: 14, marginBottom: 10 }}>
           What kind of shirt do you want?
         </h2>
         <p style={{ fontSize: 15, color: "#7A7A9A" }}>Pick the feel that fits your order.</p>
@@ -41,8 +42,8 @@ export default function StepShirtFeel({ order, onUpdate, onNext }: Props) {
               onMouseEnter={e => { if (!selected) { e.currentTarget.style.borderColor = "rgba(76,175,80,0.4)"; e.currentTarget.style.transform = "translateY(-2px)"; } }}
               onMouseLeave={e => { if (!selected) { e.currentTarget.style.borderColor = "#2A2A3E"; e.currentTarget.style.transform = "translateY(0)"; } }}
             >
-              <div style={{ fontSize: 44, marginBottom: 18 }}>{feel.emoji}</div>
-              <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 18, fontWeight: 800, color: selected ? "#4CAF50" : "#fff", marginBottom: 10 }}>{feel.label}</h3>
+              <div style={{ marginBottom: 18 }}><feel.icon size={36} color={selected ? "#4CAF50" : "#fff"} strokeWidth={1.5} /></div>
+              <h3 style={{ fontFamily: "var(--font-poppins)", fontSize: 18, fontWeight: 400, color: selected ? "#4CAF50" : "#fff", marginBottom: 10 }}>{feel.label}</h3>
               <p style={{ fontSize: 13, color: "#7A7A9A", lineHeight: 1.7, marginBottom: 12 }}>{feel.desc}</p>
               <p style={{ fontSize: 11, color: selected ? "#4CAF50" : "#4A4A6A", fontWeight: 600 }}>{feel.example}</p>
             </button>
