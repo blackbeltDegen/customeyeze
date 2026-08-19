@@ -1,5 +1,5 @@
 CUSTOMEYEZE — HANDOFF NOTES
-Last updated: 2026-08-19
+Last updated: 2026-08-19 (full front-end rework pass)
 
 =====================================================================
 WHAT THIS IS
@@ -71,6 +71,73 @@ FIXED SINCE LAST UPDATE
   effect, no DOM mutation by GSAP, no more crash. Verified fixed both
   locally and on the live site (scrolled into each pinned section,
   navigated away, confirmed no console errors).
+
+=====================================================================
+COMPLETE FRONT-END VISUAL REWORK (since last update)
+=====================================================================
+User feedback after the GSAP/motion pass above was "it looks exactly
+the same" — the new sections reused the same dark rounded-card
+component, emoji icons, and default Poppins font that most AI-built
+dark sites default to. Consulted the `frontend-design` and
+`ui-ux-pro-max` skills, ran a full 2-agent codebase audit + a
+plan-validation agent, then executed a site-wide visual rework:
+
+- Display font swapped sitewide: Poppins -> Anton (condensed poster/
+  stencil face, matches print-shop/streetwear subject matter). Done
+  by repointing the existing `--font-poppins` CSS var in
+  src/app/layout.tsx to load Anton (2-line change) rather than
+  renaming 34 call sites. Body text still Inter. Anton is single-
+  weight (400) — every heading's `fontWeight: 900/800` next to
+  `var(--font-poppins)` was changed to 400 (browser would otherwise
+  synthetic-bold it, which looks bad on a condensed face).
+- Every emoji-as-icon replaced with real `lucide-react` SVG icons,
+  across the homepage, contact, how-it-works, and the design wizard
+  (StepShirtFeel, StepReview, StepDesignStudio's upload/delete icons).
+- New shared components:
+    src/components/ProcessTimeline.tsx — connected numbered-node +
+      line stepper, animation-agnostic (parent supplies the reveal
+      wrapper via a renderStep render-prop). Used by both the
+      homepage "How It Works" and how-it-works/page.tsx's Steps,
+      replacing the old boxy 3-4 card grids.
+    src/lib/tokens.ts — canonical color/radius/card tokens (radius
+      unified to 20px; not yet adopted everywhere, only used where
+      touched this pass — TiltCard.tsx and Footer.tsx colors were
+      hand-fixed to match rather than importing tokens.ts).
+- Signature "film peel" motif (references the DTF transfer film
+  peeling off the shirt) added in exactly two places, deliberately not
+  reused elsewhere: a torn-corner hover detail on homepage Gallery
+  tiles (pure CSS), and ExplodedProcess's 4 layer cards restyled as
+  film-strip shapes (sprocket-hole top edge, torn right edge via
+  clip-path) — the GSAP scroll-scrub timeline itself was untouched,
+  only the DOM/CSS of the same 4 ref'd nodes changed.
+- De-duplication beyond the timeline: homepage "Who It's For" is now
+  an asymmetric bento layout (2 featured cards + 4 compact ones)
+  instead of a uniform 3x2 grid; how-it-works/page.tsx's FAQ is now a
+  real accordion (`<button aria-expanded>`, keyboard-accessible, one
+  open at a time) instead of 6 always-open identical cards.
+- Token cleanup: TiltCard.tsx's stray `#1F1F1F` border -> `#2A2A3E`;
+  Footer.tsx's off-palette `#444`/`#333`/`#0B0B14` -> the standard
+  `#7A7A9A`/`#4A4A6A`/`#0F0F18`.
+
+HARD CONSTRAINT RESPECTED: StepDesignStudio.tsx's Fabric.js canvas
+init, SVG shirt path/geometry, PRINT rect coordinates, and the
+sideData front/back persistence logic were NOT touched — only the
+`panel` style radius and the two emoji (upload icon, delete button)
+changed. Verified via full manual smoke test in-browser: uploaded
+text, dragged/selected it, flipped front->back->front and confirmed
+the text persisted, deleted an object, and confirmed the Review page's
+design-preview export (`toDataURL`) still renders correctly.
+
+Also re-ran the removeChild/pin regression check (scroll into
+ExplodedProcess, navigate away mid-scroll) after the film-strip
+restyle — still clean, no console errors.
+
+tsc --noEmit and eslint both clean (one pre-existing, unrelated
+`fabric` unused-var warning in StepDesignStudio.tsx was already there
+before this session and was left alone). Committed and pushed
+(commit 3b7fbf3) — should be live on Netlify shortly after; not yet
+re-verified on the live URL as of this note, so do that first if
+picking this up fresh.
 
 =====================================================================
 PENDING — THE SHIRT-PRESS SCROLL VIDEO (main next task)
@@ -156,5 +223,18 @@ NOT DONE / DECLINED
   keep the existing dark navy/green theme).
 - Did NOT set up Hostinger MCP (video's hosting suggestion) — user's
   standing preference is Netlify, per global CLAUDE.md.
-- Did not scope beyond the homepage (About/Contact/How-it-works/Design
-  studio pages untouched).
+- The original GSAP/motion pass was homepage-only; the later full
+  visual rework (font/icons/motif/tokens) DOES now touch About,
+  Contact, How It Works, and the Design studio wizard too — see
+  "COMPLETE FRONT-END VISUAL REWORK" above. Those pages still don't
+  have GSAP/Lenis scroll motion though (only the homepage has
+  SmoothScroll mounted) — that's still homepage-only if it's ever
+  wanted more broadly.
+- ProcessTimeline/accordion/asymmetric-bento patterns were only
+  applied where the audit found duplicated card grids (homepage +
+  how-it-works). About page's 3 stacked TiltCards and the design
+  wizard's selection-card grids (StepShirtFeel, StepShirtStyle) were
+  intentionally left as-is — they're functional selection UI, not
+  repeated marketing content, so distinctiveness mattered less there
+  (see the approved plan's reasoning, still saved at
+  C:\Users\ayousef.ASM\.claude\plans\zany-juggling-hoare.md).
