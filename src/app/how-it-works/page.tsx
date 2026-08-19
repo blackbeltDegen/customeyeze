@@ -75,8 +75,10 @@ function FaqItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
           style={{ flexShrink: 0, transition: "transform 0.25s ease", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
         />
       </button>
-      <div style={{ maxHeight: open ? 200 : 0, transition: "max-height 0.3s ease", overflow: "hidden" }}>
-        <p style={{ fontSize: 14, color: "#7A7A9A", lineHeight: 1.75, padding: "0 26px 22px" }}>{a}</p>
+      <div style={{ display: "grid", gridTemplateRows: open ? "1fr" : "0fr", transition: "grid-template-rows 0.3s ease" }}>
+        <div style={{ overflow: "hidden", minHeight: 0 }}>
+          <p style={{ fontSize: 14, color: "#7A7A9A", lineHeight: 1.75, padding: "0 26px 22px" }}>{a}</p>
+        </div>
       </div>
     </TiltCard>
   );

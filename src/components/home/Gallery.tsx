@@ -79,13 +79,15 @@ export default function Gallery() {
 
         /* Signature motif: the DTF transfer film lifting at the corner */
         .gallery-peel {
-          position: absolute; top: 0; right: 0; width: 26px; height: 26px;
+          position: absolute; top: 0; right: 0; width: 58px; height: 58px;
           background: linear-gradient(135deg, #4CAF50 50%, #2E7D32 50%);
           clip-path: polygon(100% 0, 0 0, 100% 100%);
-          transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+          transform: scale(0.45);
+          transform-origin: top right;
+          transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           filter: drop-shadow(-2px 2px 4px rgba(0,0,0,0.35));
         }
-        .gallery-tile:hover .gallery-peel { width: 58px; height: 58px; }
+        .gallery-tile:hover .gallery-peel { transform: scale(1); }
 
         @media (max-width: 900px) {
           .gallery-grid { grid-template-columns: repeat(2, 1fr); }
