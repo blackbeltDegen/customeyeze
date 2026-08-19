@@ -1,0 +1,144 @@
+CUSTOMEYEZE — HANDOFF NOTES
+Last updated: 2026-08-19
+
+=====================================================================
+WHAT THIS IS
+=====================================================================
+Taking the CustomEyeze homepage "to the next level" following two
+YouTube tutorials on Claude Code + premium website design. Dark
+navy/green theme is being KEPT (not switching to a light/editorial
+palette) — only the motion, structure, and visuals are being upgraded.
+
+=====================================================================
+DONE
+=====================================================================
+- Installed gsap + lenis (npm).
+- Set up shadcn MCP + React Bits registry (components.json, .mcp.json)
+  per standing preference in global CLAUDE.md. Requires a Claude Code
+  restart to pick up the MCP server if not already active.
+- Rebuilt src/app/page.tsx homepage structure:
+    Hero (existing AnimatedHero + abstract 3D shirt, unchanged)
+    -> Marquee
+    -> Gallery (NEW — src/components/home/Gallery.tsx)
+    -> How It Works (existing, reveal upgraded to GSAP)
+    -> Who It's For (existing, reveal upgraded to GSAP)
+    -> Pricing (existing, reveal upgraded to GSAP)
+    -> ExplodedProcess (NEW — replaces old "Why DTF" section)
+    -> Testimonials (NEW — horizontal scroll-pin)
+    -> Final CTA (existing, reveal upgraded to GSAP)
+- New components in src/components/home/:
+    SmoothScroll.tsx   — Lenis + GSAP ScrollTrigger sync, mounted once
+                         on the homepage only (not global layout).
+    RevealSection.tsx  — GSAP clip-path scroll reveal (replaces
+                         AnimatedSection for homepage section headers).
+    ParallaxLayer.tsx  — GSAP scrub parallax wrapper, used on the
+                         decorative background orbs.
+    Gallery.tsx         — portfolio/gallery grid. USES PLACEHOLDER
+                         gradient tiles (no real photos yet — see
+                         MISSING below).
+    ExplodedProcess.tsx — pinned scroll-scrubbed "how it's made" section,
+                         currently CSS-card based (4 layers: Blank,
+                         Film, Press, Print). This is the section slated
+                         to become the real shirt-press video (see
+                         PENDING below).
+    Testimonials.tsx    — pinned horizontal-scroll testimonial cards.
+                         Copy is PLACEHOLDER (generic role labels, no
+                         real customer names) — swap for real reviews
+                         when available.
+- src/lib/gsap.ts — registers ScrollTrigger plugin once, client-side.
+- globals.css: added `html.lenis` scroll-behavior override for Lenis
+  compatibility. Two pre-existing (not introduced this session) design
+  hook findings were reviewed and suppressed as false positives/out of
+  scope (.nav-link::after width transition, .text-shimmer gradient
+  text) — see .impeccable/config.json ignoreValues if these need
+  revisiting.
+- Verified in-browser via Chrome automation: hero, gallery reveal,
+  pinned exploded-process scrub, and horizontal testimonial scroll-pin
+  all work correctly. tsc --noEmit and eslint both clean.
+
+=====================================================================
+PENDING — THE SHIRT-PRESS SCROLL VIDEO (main next task)
+=====================================================================
+User wants ExplodedProcess's placeholder cards replaced with a real
+scroll-scrubbed VIDEO showing a t-shirt going through the heat press
+(open press -> closed -> lifted, revealing the finished print),
+inspired by a second tutorial video (Claude Code + Nano Banana 2 +
+Kling, "$10k website in 20 minutes" style).
+
+Chosen approach: NO-CODE / web-apps only (not API integration) since
+this is a single one-off asset, not a repeated pipeline.
+
+Steps the user still needs to do themselves:
+  1. Go to https://aistudio.google.com (free, sign in with Google).
+     Use an image-capable Gemini model (nicknamed "Nano Banana 2" —
+     officially something like Gemini 3.1 Flash Image / Gemini 3 Pro
+     Image; exact model ID may have shifted, check the model picker).
+     Generate IMAGE 1 (open press) with this prompt:
+
+       Professional product photography, 2048x2048 resolution, ultra
+       sharp. A heat press machine with the top platen open, revealing
+       a folded blank black t-shirt on the lower plate with a white
+       DTF transfer film sheet on top showing a bold green graphic
+       design. Dark studio background, dramatic side lighting, shallow
+       depth of field, clean minimal composition, high-end commercial
+       photography.
+
+     Then, in the SAME chat, attach image 1 as a reference image and
+     generate IMAGE 2 (closed/finished) with this prompt:
+
+       Same heat press machine, same camera angle and lighting as the
+       reference image, but the platen has just lifted open again,
+       revealing a finished black t-shirt with a vibrant, crisp green
+       printed design on the chest. Subtle heat shimmer/steam.
+       Professional product photography, 2048x2048 resolution, ultra
+       sharp.
+
+     Download both images.
+
+  2. Go to https://klingai.com. Upload image 1 as the START frame and
+     image 2 as the END frame (look for "Start and End Frame" / "First
+     to Last Frame" mode). Prompt: "heat press closes down, holds,
+     then lifts open revealing the finished print, smooth cinematic
+     motion." Generate a ~5s clip. Download the video.
+
+  3. Hand the video file to Claude. Claude will build a VideoScrub
+     component (new file, src/components/home/VideoScrub.tsx) that
+     reuses the same pinned-GSAP-ScrollTrigger pattern already in
+     ExplodedProcess.tsx, but drives `video.currentTime` proportional
+     to scroll progress instead of animating CSS transforms — this is
+     the "plays forward on scroll down, reverses on scroll up" effect.
+     It replaces ExplodedProcess's placeholder cards.
+
+Reference info if API/programmatic access is wanted later instead of
+the web UIs (not needed for the current plan):
+  - Nano Banana 2 API: Google AI Studio -> "Get API key". Pricing
+    ~$0.134/image (1-2K res), ~$0.24/image (4K); batch API ~50% off.
+    Free tier is limited/inconsistent — check live quota in dashboard.
+  - Kling API: official portal at kling.ai/dev/api-key (or
+    klingai.com/global/dev), Singapore endpoint for non-China users.
+    Requires a paid API plan. Aggregator alternative: fal.ai (easier
+    signup, pay-as-you-go), search "kling" in their model catalog.
+    Feature name: "Start and End Frame" image-to-video.
+    Pricing roughly $0.084-0.14/sec, clips typically 5-10s.
+
+=====================================================================
+OTHER MISSING / KNOWN GAPS
+=====================================================================
+- Gallery.tsx uses gradient-placeholder tiles, not real photos of
+  shirts/prints. User said placeholder is fine for now — swap in real
+  product photos later (drop into public/ and swap the `pattern`
+  background-image per tile for a real <img>/background photo).
+- Testimonials.tsx has placeholder quotes with generic role labels
+  (no real customer names) — swap for real reviews when available.
+- public/ folder still has no real product photography at all (only
+  logo.png + default Next.js placeholder SVGs).
+
+=====================================================================
+NOT DONE / DECLINED
+=====================================================================
+- Did NOT pivot to a light/warm-white editorial palette (user chose to
+  keep the existing dark navy/green theme).
+- Did NOT set up Hostinger MCP (video's hosting suggestion) — user's
+  standing preference is Netlify, per global CLAUDE.md.
+- Did not scope beyond the homepage (About/Contact/How-it-works/Design
+  studio pages untouched).

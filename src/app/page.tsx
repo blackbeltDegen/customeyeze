@@ -5,6 +5,12 @@ import AnimatedHero from "@/components/AnimatedHero";
 import Marquee from "@/components/Marquee";
 import AnimatedSection from "@/components/AnimatedSection";
 import TiltCard from "@/components/TiltCard";
+import SmoothScroll from "@/components/home/SmoothScroll";
+import RevealSection from "@/components/home/RevealSection";
+import ParallaxLayer from "@/components/home/ParallaxLayer";
+import Gallery from "@/components/home/Gallery";
+import ExplodedProcess from "@/components/home/ExplodedProcess";
+import Testimonials from "@/components/home/Testimonials";
 
 const cx = { maxWidth: 1280, margin: "0 auto", padding: "0 32px" };
 
@@ -33,19 +39,23 @@ const pricing = [
 export default function HomePage() {
   return (
     <>
+      <SmoothScroll />
       <AnimatedHero />
       <Marquee />
+      <Gallery />
 
       {/* HOW IT WORKS */}
       <section style={{ padding: "110px 0", backgroundColor: "#13131E", position: "relative", overflow: "hidden" }}>
-        <div className="orb orb-1" style={{ position: "absolute", top: "10%", right: "-12%", opacity: 0.45 }} />
+        <ParallaxLayer speed={0.25} style={{ position: "absolute", top: "10%", right: "-12%", opacity: 0.45 }}>
+          <div className="orb orb-1" />
+        </ParallaxLayer>
         <div style={cx}>
-          <AnimatedSection style={{ textAlign: "center", marginBottom: 64 }}>
+          <RevealSection style={{ textAlign: "center", marginBottom: 64 }}>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>The Process</span>
             <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginTop: 14 }}>
               Simple as 1, 2, 3.
             </h2>
-          </AnimatedSection>
+          </RevealSection>
 
           <div style={{ display: "grid", gap: 20 }} className="steps-grid">
             {steps.map((s, i) => (
@@ -92,12 +102,12 @@ export default function HomePage() {
       {/* WHO IT'S FOR */}
       <section style={{ padding: "110px 0", backgroundColor: "#0F0F18", position: "relative" }}>
         <div style={cx}>
-          <AnimatedSection style={{ marginBottom: 64 }}>
+          <RevealSection style={{ marginBottom: 64 }}>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Who It&apos;s For</span>
             <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, maxWidth: 480, marginTop: 14 }}>
               Built for everyone.
             </h2>
-          </AnimatedSection>
+          </RevealSection>
 
           <div style={{ display: "grid", gap: 16 }} className="use-case-grid">
             {useCases.map((u, i) => (
@@ -115,15 +125,17 @@ export default function HomePage() {
 
       {/* PRICING — green-tinted dark section for contrast */}
       <section style={{ padding: "110px 0", backgroundColor: "#0C150C", position: "relative", overflow: "hidden" }}>
-        <div className="orb orb-2" style={{ position: "absolute", top: "30%", left: "-8%", opacity: 0.5 }} />
+        <ParallaxLayer speed={-0.2} style={{ position: "absolute", top: "30%", left: "-8%", opacity: 0.5 }}>
+          <div className="orb orb-2" />
+        </ParallaxLayer>
         <div style={cx}>
-          <AnimatedSection style={{ textAlign: "center", marginBottom: 64 }}>
+          <RevealSection style={{ textAlign: "center", marginBottom: 64 }}>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Pricing</span>
             <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(34px, 4vw, 60px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginTop: 14 }}>
               More shirts,<br />lower price.
             </h2>
             <p style={{ fontSize: 16, color: "#7A7A9A", marginTop: 12 }}>No minimums. Ever.</p>
-          </AnimatedSection>
+          </RevealSection>
 
           <div style={{ display: "grid", gap: 16, maxWidth: 860, margin: "0 auto" }} className="pricing-grid">
             {pricing.map((tier, i) => (
@@ -150,83 +162,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHY DTF */}
-      <section style={{ padding: "110px 0", backgroundColor: "#13131E", position: "relative", overflow: "hidden" }}>
-        <div style={cx}>
-          <div style={{ display: "grid", gap: 72, alignItems: "center" }} className="dtf-grid">
-            <AnimatedSection>
-              <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 14, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Why DTF?</span>
-              <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 900, color: "#fff", letterSpacing: "-1.5px", lineHeight: 1.08, marginBottom: 36, marginTop: 14 }}>
-                Print quality<br />you can feel.
-              </h2>
-              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 18 }}>
-                {[
-                  ["Full-color prints", "No color limits, no setup fees per color."],
-                  ["Any fabric", "Cotton, polyester, blends — dark or light."],
-                  ["Soft to the touch", "The print bonds to the shirt, not on top."],
-                  ["Built to last", "Wash-resistant and vibrant for years."],
-                ].map(([b, rest]) => (
-                  <li key={b as string} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                    <span style={{
-                      width: 24, height: 24, borderRadius: "50%",
-                      backgroundColor: "rgba(76,175,80,0.18)", color: "#4CAF50",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 12, fontWeight: 800, flexShrink: 0, marginTop: 2,
-                    }}>✓</span>
-                    <span style={{ fontSize: 15, color: "#9090B0", lineHeight: 1.65 }}>
-                      <strong style={{ color: "#ddd", fontWeight: 600 }}>{b as string}</strong> — {rest as string}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/design" className="btn-glow" style={{
-                display: "inline-block", marginTop: 40, backgroundColor: "#4CAF50", color: "#fff",
-                padding: "15px 36px", borderRadius: 999, fontWeight: 700, fontSize: 16,
-                textDecoration: "none", transition: "transform 0.2s",
-              }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-              >
-                Start Your Order
-              </Link>
-            </AnimatedSection>
+      <ExplodedProcess />
 
-            <AnimatedSection delay={0.2}>
-              <TiltCard style={{
-                backgroundColor: "#1D1D2C",
-                borderRadius: 28, padding: "52px 40px", textAlign: "center",
-                position: "relative", overflow: "hidden",
-              }}>
-                <div style={{
-                  position: "absolute", top: "50%", left: "50%",
-                  transform: "translate(-50%,-50%)",
-                  width: 280, height: 280, borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(76,175,80,0.14) 0%, transparent 70%)",
-                  pointerEvents: "none",
-                }} />
-                <div style={{ fontSize: 90, marginBottom: 20 }}>👕</div>
-                <p style={{ fontFamily: "var(--font-poppins)", fontSize: 21, fontWeight: 800, color: "#fff", marginBottom: 8 }}>DTF Printing</p>
-                <p style={{ fontSize: 14, color: "#7A7A9A", lineHeight: 1.7 }}>Direct to Film — the gold standard<br />for custom apparel printing</p>
-                <div style={{ marginTop: 28, display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                  {["Vivid Colors", "Any Fabric", "Wash-Safe", "No Minimums"].map(tag => (
-                    <span key={tag} style={{
-                      fontSize: 11, fontWeight: 700, color: "#4CAF50",
-                      border: "1px solid rgba(76,175,80,0.3)", borderRadius: 999,
-                      padding: "5px 12px", backgroundColor: "rgba(76,175,80,0.08)",
-                    }}>{tag}</span>
-                  ))}
-                </div>
-              </TiltCard>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
+      <Testimonials />
 
       {/* FINAL CTA */}
       <section style={{ position: "relative", padding: "140px 0", overflow: "hidden", textAlign: "center", backgroundColor: "#0C150C" }}>
         <div className="orb orb-1" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", opacity: 0.65 }} />
         <div style={{ position: "relative", ...cx }}>
-          <AnimatedSection>
+          <RevealSection>
             <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#4CAF50", textTransform: "uppercase", marginBottom: 20, backgroundColor: "rgba(76,175,80,0.1)", padding: "5px 14px", borderRadius: 999, border: "1px solid rgba(76,175,80,0.2)" }}>Ready?</span>
             <h2 style={{ fontFamily: "var(--font-poppins)", fontSize: "clamp(42px, 6vw, 84px)", fontWeight: 900, color: "#fff", letterSpacing: "-2px", lineHeight: 1.0, marginBottom: 20, marginTop: 14 }}>
               Let&apos;s build<br />something.
@@ -254,19 +198,17 @@ export default function HomePage() {
                 Request a Quote
               </Link>
             </div>
-          </AnimatedSection>
+          </RevealSection>
         </div>
       </section>
 
       <style>{`
         .steps-grid { grid-template-columns: repeat(3, 1fr); }
         .use-case-grid { grid-template-columns: repeat(3, 1fr); }
-        .dtf-grid { grid-template-columns: 1fr 1fr; }
         .pricing-grid { grid-template-columns: repeat(4, 1fr); }
         @media (max-width: 960px) {
           .steps-grid { grid-template-columns: 1fr !important; }
           .use-case-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .dtf-grid { grid-template-columns: 1fr !important; }
           .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 560px) {

@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "width",
+        "files": [
+          "src/app/globals.css"
+        ],
+        "createdAt": "2026-08-19T18:55:20.385Z",
+        "reason": "pre-existing .nav-link::after underline hover, absolutely-positioned isolated pseudo-element, no sibling reflow, not part of this session's changes"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/app/globals.css"
+        ],
+        "createdAt": "2026-08-19T18:56:01.276Z",
+        "reason": "pre-existing .text-shimmer brand treatment on hero headline, predates this session, not evaluated/changed by me"
+      }
+    ]
+  }
+}
