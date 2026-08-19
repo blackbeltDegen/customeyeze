@@ -57,6 +57,22 @@ DONE
   all work correctly. tsc --noEmit and eslint both clean.
 
 =====================================================================
+FIXED SINCE LAST UPDATE
+=====================================================================
+- Bug: navigating away from the homepage while scrolled into a pinned
+  section (ExplodedProcess or Testimonials) threw an uncaught
+  "NotFoundError: Failed to execute 'removeChild' on 'Node'" and, on
+  the live Netlify site, could make other pages appear to fail to
+  load. Root cause: GSAP ScrollTrigger's `pin: true` reparents the
+  pinned DOM node into a "pin-spacer" wrapper, which conflicts with
+  React's own DOM diffing during a Next.js route change. Fixed by
+  switching both sections from `pin: true` to CSS `position: sticky`
+  (see ExplodedProcess.tsx / Testimonials.tsx) — same visual pin
+  effect, no DOM mutation by GSAP, no more crash. Verified fixed both
+  locally and on the live site (scrolled into each pinned section,
+  navigated away, confirmed no console errors).
+
+=====================================================================
 PENDING — THE SHIRT-PRESS SCROLL VIDEO (main next task)
 =====================================================================
 User wants ExplodedProcess's placeholder cards replaced with a real
